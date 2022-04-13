@@ -66,7 +66,7 @@ The syntax is described [here](https://github.com/m93a/filtrex#expressions).
 | `severity`  | `type` as string in lower case characters.                                                                         | `severity in ("debug", "default", "error", "info", "trace", "warn")` |
 | `trace`     | Value of [LogType.Trace](https://egomobile.github.io/js-log/enums/LogType.html#Trace).                             | `type == trace`                                                      |
 | `true`      | Value of [true](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean).         | `isError == true`                                                    |
-| `type`      | A value of [LogType](https://egomobile.github.io/js-log/enums/LogType.html).                                       | `not type in (debug, trace)`                                         |
+| `type`      | A value of [LogType](https://egomobile.github.io/js-log/enums/LogType.html).                                       | `type not in (debug, trace)`                                         |
 | `undefined` | Value of [undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined).  | `arg0 != undefined`                                                  |
 | `warn`      | Value of [LogType.Warn](https://egomobile.github.io/js-log/enums/LogType.html#Warn).                               | `type == warn`                                                       |
 
