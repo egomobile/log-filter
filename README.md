@@ -67,7 +67,7 @@ The syntax is described [here](https://github.com/m93a/filtrex#expressions).
 | `trace`     | Value of [LogType.Trace](https://egomobile.github.io/js-log/enums/LogType.html#Trace).                             | `type == trace`                                                      |
 | `true`      | Value of [true](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean).         | `isError == true`                                                    |
 | `type`      | A value of [LogType](https://egomobile.github.io/js-log/enums/LogType.html).                                       | `not type in (debug, trace)`                                         |
-| `undefined` | Value [undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined).     | `arg0 != undefined`                                                  |
+| `undefined` | Value of [undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined).  | `arg0 != undefined`                                                  |
 | `warn`      | Value of [LogType.Warn](https://egomobile.github.io/js-log/enums/LogType.html#Warn).                               | `type == warn`                                                       |
 
 Additionally there will also dynamic constants be added, based on the number of arguments, which are submitted to a log function:
@@ -171,7 +171,7 @@ import log from "@egomobile/log";
 import { withFilterExpression } from "@egomobile/log-filter";
 
 const str = (val: any) => String(val);
-const myRepeat = (val: any, count: number) => str(val).repeat(count);
+const repeatStr = (val: any, count: number) => str(val).repeat(count);
 
 const expression = 'repeatStr(arg0, 5) == "TM+MK TM+MK TM+MK TM+MK TM+MK "';
 
