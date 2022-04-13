@@ -27,7 +27,36 @@ import { LoggerFilter, LogType } from '@egomobile/log';
 import { getTime, toStringSafe } from './utils/internal';
 import type { Nilable, Optional } from './types/internal';
 
-type LogFilterConstants = Record<string, any>;
+/**
+ * A function, which returns extra constants.
+ *
+ * @returns {LogFilterConstants} The extra functions.
+ */
+export type GetExtraLogFilterConstantsFunc =
+    (context: IGetExtraLogFilterConstantsContext) => Nilable<LogFilterConstants>;
+
+/**
+ * A context for a 'GetExtraLogFilterConstantsFunc' call.
+ */
+export interface IGetExtraLogFilterConstantsContext {
+    /**
+     * The arguments, submitted to the log function.
+     */
+    args: any[];
+    /**
+     * The current repository of constants.
+     */
+    constants: LogFilterConstants;
+    /**
+     * The type.
+     */
+    type: LogType;
+}
+
+/**
+ * Log filter constants.
+ */
+export type LogFilterConstants = Record<string, any>;
 
 /**
  * A repository of log filter functions.
@@ -66,6 +95,10 @@ export interface IWithFilterExpressionOptions {
      * Default: (true)
      */
     fallbackValue?: any;
+    /**
+     * An optional function, which returns extra constants.
+     */
+    getExtraConstants?: Nilable<GetExtraLogFilterConstantsFunc>;
 }
 
 /**
@@ -625,7 +658,7 @@ export function withFilterExpression(expression: string | string[], options?: Ni
         behavior = 'or';
     }
     if (!validBehaviors.includes(behavior)) {
-        throw new TypeError('options.behavior must be one of the fallowing values: ' + validBehaviors.join());
+        throw new TypeError('options.behavior must be one of the following values: ' + validBehaviors.join());
     }
 
     let listOfExpressions: string[];
@@ -637,6 +670,11 @@ export function withFilterExpression(expression: string | string[], options?: Ni
 
     if (listOfExpressions.some(expr => typeof expr !== 'string')) {
         throw new TypeError('all expressions must be of type string');
+    }
+
+    const getExtraConstants = options?.getExtraConstants || (() => null);
+    if (typeof getExtraConstants !== 'function') {
+        throw new TypeError('options.getExtraConstants must be of type function');
     }
 
     if (listOfExpressions.length) {
@@ -687,6 +725,21 @@ export function withFilterExpression(expression: string | string[], options?: Ni
                 constants[`arg${i}`] = a;
                 constants[`message${i}`] = toStringSafe(a);
             });
+
+            const extraConstantContext: IGetExtraLogFilterConstantsContext = {
+                args,
+                constants,
+                type
+            };
+
+            const extraConstants = getExtraConstants(extraConstantContext);
+            if (extraConstants) {
+                Object.entries(extraConstants).forEach(([name, value]) => {
+                    constants[name] = typeof value === 'function' ?
+                        value(extraConstantContext) :
+                        value;
+                });
+            }
 
             try {
                 return predicate(constants);

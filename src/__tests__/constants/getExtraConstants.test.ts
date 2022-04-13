@@ -15,31 +15,21 @@
 
 import { createLogWithFilter } from '../_utils';
 
-const values = [
-    null,
-    undefined,
-    'foo',
-    true,
-    false,
-    5979
-];
+describe('custom filter constants', () => {
+    it('should be able to handle custom constants', async () => {
+        const expression = 'foo == "bar" and error == "baz" and warn == undefined and info == null';
 
-describe('item() filter function', () => {
-    it.each(values)('should get correct item without index from an array-like object', async (value) => {
-        const { entries, log } = createLogWithFilter(`item(args) == ${JSON.stringify(value)}`);
+        const { entries, log } = createLogWithFilter(expression, {
+            getExtraConstants: () => ({
+                foo: 'bar',
+                error: () => 'baz',
+                warn: undefined,
+                info: null
+            })
+        });
 
-        log(value);
-
-        expect(entries.length).toBe(1);
-        expect(entries[0].args[0]).toBe(value);
-    });
-
-    it.each(values)('should get correct item without index array-like object', async (value) => {
-        const { entries, log } = createLogWithFilter(`item(args, 1) == ${JSON.stringify(value)}`);
-
-        log(4242, value);
+        log();
 
         expect(entries.length).toBe(1);
-        expect(entries[0].args[1]).toBe(value);
     });
 });

@@ -15,31 +15,12 @@
 
 import { createLogWithFilter } from '../_utils';
 
-const values = [
-    null,
-    undefined,
-    'foo',
-    true,
-    false,
-    5979
-];
+describe('undefined filter constant', () => {
+    it('should be the value of (undefined)', async () => {
+        const { entries, log } = createLogWithFilter('arg0 == undefined');
 
-describe('item() filter function', () => {
-    it.each(values)('should get correct item without index from an array-like object', async (value) => {
-        const { entries, log } = createLogWithFilter(`item(args) == ${JSON.stringify(value)}`);
-
-        log(value);
+        log(undefined);
 
         expect(entries.length).toBe(1);
-        expect(entries[0].args[0]).toBe(value);
-    });
-
-    it.each(values)('should get correct item without index array-like object', async (value) => {
-        const { entries, log } = createLogWithFilter(`item(args, 1) == ${JSON.stringify(value)}`);
-
-        log(4242, value);
-
-        expect(entries.length).toBe(1);
-        expect(entries[0].args[1]).toBe(value);
     });
 });

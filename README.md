@@ -81,6 +81,52 @@ Additionally there will also dynamic constants be added, based on the number of 
 log("foo", 42, false, null, undefined);
 ```
 
+It is also possible to add extra constants:
+
+```typescript
+import log, { LogType } from "@egomobile/log";
+import {
+  IGetExtraLogFilterConstantsContext,
+  LogFilterConstants,
+  withFilterExpression,
+} from "@egomobile/log-filter";
+
+const expression =
+  'foo == 42 and lowerMessage1 == "foo bar baz" and upperSeverity == "WARN" and error == undefined';
+
+log.use(
+  withFilterExpression(expression, {
+    getExtraConstants: ({ type, args }: IGetExtraLogFilterConstantsContext) => {
+      const extraConstants: LogFilterConstants = {
+        // static value
+        foo: 42,
+        // functions will be handled as getters
+        upperSeverity: () => LogType[type].toUpperCase(),
+        // remove constant
+        error: undefined,
+      };
+
+      // add extra and dynamic constants
+      // lowerMessage<index + 1>
+      // with lowercase values of items
+      // of 'args'
+      args.forEach((a, index) => {
+        extraConstants[`lowerMessage${index + 1}`] = String(a).toLowerCase();
+      });
+
+      return extraConstants;
+    },
+  })
+);
+
+// should log
+log.warn("FOO BAR BAZ");
+
+// should not log
+log("FOO BAR BAZ");
+log.warn("FUH BAR BAZZ");
+```
+
 ### Functions
 
 | Name                                                                           | Description                                                                                                                                                                                 | Example                                                                                                  |

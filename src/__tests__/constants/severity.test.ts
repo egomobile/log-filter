@@ -13,33 +13,25 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import type { ILogger } from '@egomobile/log';
 import { createLogWithFilter } from '../_utils';
 
-const values = [
-    null,
-    undefined,
-    'foo',
-    true,
-    false,
-    5979
+const methods: (keyof ILogger)[] = [
+    'debug',
+    'error',
+    'info',
+    'trace',
+    'warn'
 ];
 
-describe('item() filter function', () => {
-    it.each(values)('should get correct item without index from an array-like object', async (value) => {
-        const { entries, log } = createLogWithFilter(`item(args) == ${JSON.stringify(value)}`);
+describe('severity filter constant', () => {
+    it.each(methods)('should be the correct value', async (method) => {
+        const expected = method;
 
-        log(value);
+        const { entries, log } = createLogWithFilter(`severity == ${JSON.stringify(expected)}`);
 
-        expect(entries.length).toBe(1);
-        expect(entries[0].args[0]).toBe(value);
-    });
-
-    it.each(values)('should get correct item without index array-like object', async (value) => {
-        const { entries, log } = createLogWithFilter(`item(args, 1) == ${JSON.stringify(value)}`);
-
-        log(4242, value);
+        (log as any)[method]();
 
         expect(entries.length).toBe(1);
-        expect(entries[0].args[1]).toBe(value);
     });
 });

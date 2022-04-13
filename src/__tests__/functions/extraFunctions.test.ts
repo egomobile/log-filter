@@ -15,31 +15,20 @@
 
 import { createLogWithFilter } from '../_utils';
 
-const values = [
-    null,
-    undefined,
-    'foo',
-    true,
-    false,
-    5979
-];
+describe('extra filter functions', () => {
+    it('should be able to handle extra filter functions', async () => {
+        const expression = 'repeatStr(lower("tm+mk "), 5) == "TM+MK TM+MK TM+MK TM+MK TM+MK "';
 
-describe('item() filter function', () => {
-    it.each(values)('should get correct item without index from an array-like object', async (value) => {
-        const { entries, log } = createLogWithFilter(`item(args) == ${JSON.stringify(value)}`);
+        const { entries, log } = createLogWithFilter(expression, {
+            extraFunctions: {
+                repeatStr: (val: any, count: number) => String(val).repeat(count),
+                // this should only demonstrate that it is possible to overwrite existing functions
+                lower: (val: any) => String(val).toUpperCase()
+            }
+        });
 
-        log(value);
-
-        expect(entries.length).toBe(1);
-        expect(entries[0].args[0]).toBe(value);
-    });
-
-    it.each(values)('should get correct item without index array-like object', async (value) => {
-        const { entries, log } = createLogWithFilter(`item(args, 1) == ${JSON.stringify(value)}`);
-
-        log(4242, value);
+        log();
 
         expect(entries.length).toBe(1);
-        expect(entries[0].args[1]).toBe(value);
     });
 });

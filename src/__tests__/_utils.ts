@@ -15,7 +15,8 @@
 
 import dayJS, { Dayjs } from 'dayjs';
 import { createLogger, LogType } from '@egomobile/log';
-import { withFilterExpression } from '..';
+import { IWithFilterExpressionOptions, withFilterExpression } from '..';
+import type { Nilable } from '../types/internal';
 
 export interface ILogEntry {
     args: any[];
@@ -23,13 +24,17 @@ export interface ILogEntry {
     type: LogType;
 }
 
-export function createLogWithFilter(...expressions: string[]) {
+export function createLogWithFilter(
+    expression: string,
+    options?: Nilable<IWithFilterExpressionOptions>
+) {
     const entries: ILogEntry[] = [];
 
     const log = createLogger();
 
-    log.filter(withFilterExpression(expressions, {
-        fallbackValue: false
+    log.filter(withFilterExpression(expression, {
+        fallbackValue: false,
+        ...(options ?? {})
     }));
 
     log.use((type, args) => {
