@@ -1,0 +1,341 @@
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@egomobile/log-filter</title><meta name="description" content="Documentation for @egomobile/log-filter"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">@egomobile/log-filter</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>@egomobile/log-filter </h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography"><p><a href="https://www.npmjs.com/package/@egomobile/log-filter"><img src="https://img.shields.io/npm/v/@egomobile/log-filter.svg" alt="npm"></a>
+<a href="https://github.com/egomobile/log-filter/actions?query=workflow%3APublish"><img src="https://img.shields.io/github/workflow/status/egomobile/log-filter/Publish" alt="last build"></a>
+<a href="https://github.com/egomobile/log-filter/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="PRs Welcome"></a></p>
+
+<a href="#egomobilelog-filter" id="egomobilelog-filter" style="color: inherit; text-decoration: none;">
+  <h1>@egomobile/log-filter</h1>
+</a>
+<blockquote>
+<p>Extension for <a href="https://github.com/egomobile/js-log">js-log</a> with utilities to handle <a href="https://www.npmjs.com/package/filtrex">extended filters</a>.</p>
+</blockquote>
+
+<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+  <h2>Install</h2>
+</a>
+<p>Execute the following command from your project folder, where your <code>package.json</code> file is stored:</p>
+<pre><code class="language-bash"><span class="hl-1">npm install --save @egomobile/log-filter</span>
+</code></pre>
+<p>The following modules are defined in <a href="https://nodejs.org/uk/blog/npm/peer-dependencies/">peerDependencies</a> and have to be installed manually:</p>
+<ul>
+<li><a href="https://github.com/egomobile/js-log">@egomobile/log</a></li>
+</ul>
+
+<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+  <h2>Usage</h2>
+</a>
+
+<a href="#quick-example" id="quick-example" style="color: inherit; text-decoration: none;">
+  <h3>Quick example</h3>
+</a>
+<pre><code class="language-typescript"><span class="hl-0">import</span><span class="hl-1"> </span><span class="hl-2">log</span><span class="hl-1"> </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;@egomobile/log&quot;</span><span class="hl-1">;</span><br/><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">withFilterExpression</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;@egomobile/log-filter&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-4">// only warning or errors</span><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">expression</span><span class="hl-1"> = </span><span class="hl-3">&#39;severity == &quot;warn&quot; or severity == &quot;error&quot;&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-2">log</span><span class="hl-1">.</span><span class="hl-7">use</span><span class="hl-1">(</span><span class="hl-7">withFilterExpression</span><span class="hl-1">(</span><span class="hl-2">expression</span><span class="hl-1">));</span><br/><br/><span class="hl-4">// will log</span><br/><span class="hl-2">log</span><span class="hl-1">.</span><span class="hl-7">warn</span><span class="hl-1">(</span><span class="hl-3">&quot;foo&quot;</span><span class="hl-1">);</span><br/><span class="hl-2">log</span><span class="hl-1">.</span><span class="hl-7">error</span><span class="hl-1">(</span><span class="hl-3">&quot;foo&quot;</span><span class="hl-1">);</span><br/><br/><span class="hl-4">// will not log:</span><br/><span class="hl-7">log</span><span class="hl-1">(</span><span class="hl-3">&quot;foo&quot;</span><span class="hl-1">);</span><br/><span class="hl-2">log</span><span class="hl-1">.</span><span class="hl-7">debug</span><span class="hl-1">(</span><span class="hl-3">&quot;foo&quot;</span><span class="hl-1">);</span><br/><span class="hl-2">log</span><span class="hl-1">.</span><span class="hl-7">info</span><span class="hl-1">(</span><span class="hl-3">&quot;foo&quot;</span><span class="hl-1">);</span><br/><span class="hl-2">log</span><span class="hl-1">.</span><span class="hl-7">trace</span><span class="hl-1">(</span><span class="hl-3">&quot;foo&quot;</span><span class="hl-1">);</span>
+</code></pre>
+
+<a href="#syntax" id="syntax" style="color: inherit; text-decoration: none;">
+  <h3>Syntax</h3>
+</a>
+<p>The syntax is described <a href="https://github.com/m93a/filtrex#expressions">here</a>.</p>
+
+<a href="#constants" id="constants" style="color: inherit; text-decoration: none;">
+  <h3>Constants</h3>
+</a>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>args</code></td>
+<td>An array with all arguments, which were submitted to log function.</td>
+<td><code>&quot;foo&quot; in args</code></td>
+</tr>
+<tr>
+<td><code>debug</code></td>
+<td>Value of <a href="https://egomobile.github.io/js-log/enums/LogType.html#Debug">LogType.Debug</a>.</td>
+<td><code>type == debug</code></td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td>Value of <a href="https://egomobile.github.io/js-log/enums/LogType.html#Default">LogType.Default</a>.</td>
+<td><code>type == default</code></td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Value of <a href="https://egomobile.github.io/js-log/enums/LogType.html#Error">LogType.Error</a>.</td>
+<td><code>type == error</code></td>
+</tr>
+<tr>
+<td><code>false</code></td>
+<td>Value of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">false</a>.</td>
+<td><code>isDebug == false</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td>Value of <a href="https://egomobile.github.io/js-log/enums/LogType.html#Info">LogType.Info</a>.</td>
+<td><code>type == info</code></td>
+</tr>
+<tr>
+<td><code>isDebug</code></td>
+<td>Indicates if <code>type</code> has value of <a href="https://egomobile.github.io/js-log/enums/LogType.html#Debug">LogType.Debug</a>.</td>
+<td><code>isDebug and type == debug</code></td>
+</tr>
+<tr>
+<td><code>isDefault</code></td>
+<td>Indicates if <code>type</code> has value of <a href="https://egomobile.github.io/js-log/enums/LogType.html#Default">LogType.Default</a>.</td>
+<td><code>isDefault and type == default</code></td>
+</tr>
+<tr>
+<td><code>isError</code></td>
+<td>Indicates if <code>type</code> has value of <a href="https://egomobile.github.io/js-log/enums/LogType.html#Error">LogType.Error</a>.</td>
+<td><code>isError and type == error</code></td>
+</tr>
+<tr>
+<td><code>isInfo</code></td>
+<td>Indicates if <code>type</code> has value of <a href="https://egomobile.github.io/js-log/enums/LogType.html#Info">LogType.Info</a>.</td>
+<td><code>isInfo and type == info</code></td>
+</tr>
+<tr>
+<td><code>isTrace</code></td>
+<td>Indicates if <code>type</code> has value of <a href="https://egomobile.github.io/js-log/enums/LogType.html#Trace">LogType.Trace</a>.</td>
+<td><code>isTrace and type == trace</code></td>
+</tr>
+<tr>
+<td><code>isWarn</code></td>
+<td>Indicates if <code>type</code> has value of <a href="https://egomobile.github.io/js-log/enums/LogType.html#Warn">LogType.Warn</a>.</td>
+<td><code>isWarn and type == warn</code></td>
+</tr>
+<tr>
+<td><code>null</code></td>
+<td>Value of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null">null</a>.</td>
+<td><code>arg0 != null</code></td>
+</tr>
+<tr>
+<td><code>severity</code></td>
+<td><code>type</code> as string in lower case characters.</td>
+<td><code>severity in (&quot;debug&quot;, &quot;default&quot;, &quot;error&quot;, &quot;info&quot;, &quot;trace&quot;, &quot;warn&quot;)</code></td>
+</tr>
+<tr>
+<td><code>trace</code></td>
+<td>Value of <a href="https://egomobile.github.io/js-log/enums/LogType.html#Trace">LogType.Trace</a>.</td>
+<td><code>type == trace</code></td>
+</tr>
+<tr>
+<td><code>true</code></td>
+<td>Value of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">true</a>.</td>
+<td><code>isError == true</code></td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>A value of <a href="https://egomobile.github.io/js-log/enums/LogType.html">LogType</a>.</td>
+<td><code>not type in (debug, trace)</code></td>
+</tr>
+<tr>
+<td><code>undefined</code></td>
+<td>Value <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a>.</td>
+<td><code>arg0 != undefined</code></td>
+</tr>
+<tr>
+<td><code>warn</code></td>
+<td>Value of <a href="https://egomobile.github.io/js-log/enums/LogType.html#Warn">LogType.Warn</a>.</td>
+<td><code>type == warn</code></td>
+</tr>
+</tbody></table>
+<p>Additionally there will also dynamic constants be added, based on the number of arguments, which are submitted to a log function:</p>
+<pre><code class="language-typescript"><span class="hl-4">// arg0 == &quot;foo&quot; and message0 == &quot;foo&quot;</span><br/><span class="hl-4">// arg1 == 42 and message1 == &quot;42&quot;</span><br/><span class="hl-4">// arg2 == false and message2 == &quot;false&quot;</span><br/><span class="hl-4">// arg3 == null and message3 == &quot;&quot;</span><br/><span class="hl-4">// arg4 == undefined and message4 == &quot;&quot;</span><br/><span class="hl-7">log</span><span class="hl-1">(</span><span class="hl-3">&quot;foo&quot;</span><span class="hl-1">, </span><span class="hl-8">42</span><span class="hl-1">, </span><span class="hl-5">false</span><span class="hl-1">, </span><span class="hl-5">null</span><span class="hl-1">, </span><span class="hl-5">undefined</span><span class="hl-1">);</span>
+</code></pre>
+<p>It is also possible to add extra constants:</p>
+<pre><code class="language-typescript"><span class="hl-0">import</span><span class="hl-1"> </span><span class="hl-2">log</span><span class="hl-1">, { </span><span class="hl-2">LogType</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;@egomobile/log&quot;</span><span class="hl-1">;</span><br/><span class="hl-0">import</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-2">IGetExtraLogFilterConstantsContext</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-2">LogFilterConstants</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-2">withFilterExpression</span><span class="hl-1">,</span><br/><span class="hl-1">} </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;@egomobile/log-filter&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">expression</span><span class="hl-1"> =</span><br/><span class="hl-1">  </span><span class="hl-3">&#39;foo == 42 and lowerMessage1 == &quot;foo bar baz&quot; and upperSeverity == &quot;WARN&quot; and error == undefined&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-2">log</span><span class="hl-1">.</span><span class="hl-7">use</span><span class="hl-1">(</span><br/><span class="hl-1">  </span><span class="hl-7">withFilterExpression</span><span class="hl-1">(</span><span class="hl-2">expression</span><span class="hl-1">, {</span><br/><span class="hl-1">    </span><span class="hl-7">getExtraConstants</span><span class="hl-2">:</span><span class="hl-1"> ({ </span><span class="hl-2">type</span><span class="hl-1">, </span><span class="hl-2">args</span><span class="hl-1"> }: </span><span class="hl-9">IGetExtraLogFilterConstantsContext</span><span class="hl-1">) </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">extraConstants</span><span class="hl-1">: </span><span class="hl-9">LogFilterConstants</span><span class="hl-1"> = {</span><br/><span class="hl-1">        </span><span class="hl-4">// static value</span><br/><span class="hl-1">        </span><span class="hl-2">foo:</span><span class="hl-1"> </span><span class="hl-8">42</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-4">// functions will be handled as getters</span><br/><span class="hl-1">        </span><span class="hl-7">upperSeverity</span><span class="hl-2">:</span><span class="hl-1"> () </span><span class="hl-5">=&gt;</span><span class="hl-1"> </span><span class="hl-2">LogType</span><span class="hl-1">[</span><span class="hl-2">type</span><span class="hl-1">].</span><span class="hl-7">toUpperCase</span><span class="hl-1">(),</span><br/><span class="hl-1">        </span><span class="hl-4">// remove constant</span><br/><span class="hl-1">        </span><span class="hl-2">error:</span><span class="hl-1"> </span><span class="hl-5">undefined</span><span class="hl-1">,</span><br/><span class="hl-1">      };</span><br/><br/><span class="hl-1">      </span><span class="hl-4">// add extra and dynamic constants</span><br/><span class="hl-1">      </span><span class="hl-4">// lowerMessage&lt;index + 1&gt;</span><br/><span class="hl-1">      </span><span class="hl-4">// with lowercase values of items</span><br/><span class="hl-1">      </span><span class="hl-4">// of &#39;args&#39;</span><br/><span class="hl-1">      </span><span class="hl-2">args</span><span class="hl-1">.</span><span class="hl-7">forEach</span><span class="hl-1">((</span><span class="hl-2">a</span><span class="hl-1">, </span><span class="hl-2">index</span><span class="hl-1">) </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-2">extraConstants</span><span class="hl-1">[</span><span class="hl-3">`lowerMessage</span><span class="hl-5">${</span><span class="hl-2">index</span><span class="hl-10"> </span><span class="hl-1">+</span><span class="hl-10"> </span><span class="hl-8">1</span><span class="hl-5">}</span><span class="hl-3">`</span><span class="hl-1">] = </span><span class="hl-9">String</span><span class="hl-1">(</span><span class="hl-2">a</span><span class="hl-1">).</span><span class="hl-7">toLowerCase</span><span class="hl-1">();</span><br/><span class="hl-1">      });</span><br/><br/><span class="hl-1">      </span><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-2">extraConstants</span><span class="hl-1">;</span><br/><span class="hl-1">    },</span><br/><span class="hl-1">  })</span><br/><span class="hl-1">);</span><br/><br/><span class="hl-4">// should log</span><br/><span class="hl-2">log</span><span class="hl-1">.</span><span class="hl-7">warn</span><span class="hl-1">(</span><span class="hl-3">&quot;FOO BAR BAZ&quot;</span><span class="hl-1">);</span><br/><br/><span class="hl-4">// should not log</span><br/><span class="hl-7">log</span><span class="hl-1">(</span><span class="hl-3">&quot;FOO BAR BAZ&quot;</span><span class="hl-1">);</span><br/><span class="hl-2">log</span><span class="hl-1">.</span><span class="hl-7">warn</span><span class="hl-1">(</span><span class="hl-3">&quot;FUH BAR BAZZ&quot;</span><span class="hl-1">);</span>
+</code></pre>
+
+<a href="#functions" id="functions" style="color: inherit; text-decoration: none;">
+  <h3>Functions</h3>
+</a>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>concat(..args: any[])</code></td>
+<td>Handles a list of arguments as strings and concats them to one without using a separator.</td>
+<td><code>concat(&quot;Tanja&quot;, &quot; M.&quot;) == &quot;Tanja M.&quot;</code></td>
+</tr>
+<tr>
+<td><code>day(useLocalTimeOrTimezone: boolean | string)</code></td>
+<td>Returns the current day of the current month.</td>
+<td><code>day() &gt;= 1 and day() &lt;= 31</code></td>
+</tr>
+<tr>
+<td><code>endOf(value: any, unit: string, useLocalTimeOrTimezone: boolean | string)</code></td>
+<td>Returns a value, which represents the end of a time area.</td>
+<td><code>endOf(now(), &quot;day&quot;) &gt;= now()</code></td>
+</tr>
+<tr>
+<td><code>every(value: any, ...args: any[])</code></td>
+<td>Handles a value as string and checks if all arguments are included.</td>
+<td><code>every(&quot;foo Bar Bazz&quot;, &quot;foo&quot;, &quot;Bar&quot;, &quot;Baz&quot;)</code></td>
+</tr>
+<tr>
+<td><code>hour(useLocalTimeOrTimezone: boolean | string)</code></td>
+<td>Returns the current hour.</td>
+<td><code>hour() &gt;= 0 and hour() &lt;= 23</code></td>
+</tr>
+<tr>
+<td><code>isFalsy(val: any)</code></td>
+<td>Checks if a value is <a href="https://developer.mozilla.org/en-US/docs/Glossary/Falsy">falsy</a>.</td>
+<td><code>isFalsy(arg0)</code></td>
+</tr>
+<tr>
+<td><code>isNil(val: any)</code></td>
+<td>Checks if a value is <a href="https://developer.mozilla.org/en-US/docs/Glossary/null">null</a> or <a href="https://developer.mozilla.org/en-US/docs/Glossary/undefined">undefined</a>.</td>
+<td><code>isNil(arg0)</code></td>
+</tr>
+<tr>
+<td><code>isNull(val: any)</code></td>
+<td>Checks if a value is <a href="https://developer.mozilla.org/en-US/docs/Glossary/null">null</a>.</td>
+<td><code>isNull(arg0)</code></td>
+</tr>
+<tr>
+<td><code>isoWeek(useLocalTimeOrTimezone: boolean | string)</code></td>
+<td>Returns the current ISO week.</td>
+<td><code>isoWeek() &gt;= 1 and isoWeek() &lt;= 53</code></td>
+</tr>
+<tr>
+<td><code>isoWeekday(useLocalTimeOrTimezone: boolean | string)</code></td>
+<td>Returns the current ISO weekday.</td>
+<td><code>isoWeekday() &gt;= 1 and isoWeek() &lt;= 7</code></td>
+</tr>
+<tr>
+<td><code>isTruthy(val: any)</code></td>
+<td>Checks if a value is <a href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.</td>
+<td><code>isTruthy(arg0)</code></td>
+</tr>
+<tr>
+<td><code>isUndefined(val: any)</code></td>
+<td>Checks if a value is <a href="https://developer.mozilla.org/en-US/docs/Glossary/undefined">undefined</a>.</td>
+<td><code>isUndefined(arg0)</code></td>
+</tr>
+<tr>
+<td><code>item(arr: any, key: any = 0)</code></td>
+<td>Returns the value of an array-like object.</td>
+<td><code>item(args, 1) == &quot;foo&quot;</code></td>
+</tr>
+<tr>
+<td><code>join(seperator: any, ..args: any[])</code></td>
+<td>Handles a list of arguments as strings and joins them to one, using a separator.</td>
+<td><code>join(&quot; + &quot;, &quot;MK&quot;, &quot;TM&quot;) == &quot;MK + TM&quot;</code></td>
+</tr>
+<tr>
+<td><code>len(val: any)</code></td>
+<td>Returns the length of a value.</td>
+<td><code>len(&quot;foo&quot;) == 3 and len(args) &gt;= 1</code></td>
+</tr>
+<tr>
+<td><code>log(val: any, returnValue: any = true)</code></td>
+<td><a href="https://developer.mozilla.org/en-US/docs/Web/API/Console/log">Logs</a> a value.</td>
+<td><code>log(args)</code></td>
+</tr>
+<tr>
+<td><code>lower(val: any)</code></td>
+<td>Handles a value as string and converts its characters to lowercase.</td>
+<td><code>lower(&quot;FoO&quot;) == &quot;foo&quot;</code></td>
+</tr>
+<tr>
+<td><code>ltrim(val: any)</code></td>
+<td>Handles a value as string and removes leading whitespace characters.</td>
+<td><code>ltrim(&quot; foo &quot;) == &quot;foo &quot;</code></td>
+</tr>
+<tr>
+<td><code>minute(useLocalTimeOrTimezone: boolean | string)</code></td>
+<td>Returns the current minute.</td>
+<td><code>minute() &gt;= 0 and minute() &lt;= 59</code></td>
+</tr>
+<tr>
+<td><code>month(useLocalTimeOrTimezone: boolean | string)</code></td>
+<td>Returns the current month.</td>
+<td><code>month() &gt;= 1 and month() &lt;= 12</code></td>
+</tr>
+<tr>
+<td><code>ms(useLocalTimeOrTimezone: boolean | string)</code></td>
+<td>Returns the current milliseconds.</td>
+<td><code>ms() &gt;= 0 and ms() &lt;= 999</code></td>
+</tr>
+<tr>
+<td><code>now(useLocalTimeOrTimezone: boolean | string)</code></td>
+<td>Returns the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/valueOf">UNIX timestamp</a> of the current time.</td>
+<td><code>log(now())</code></td>
+</tr>
+<tr>
+<td><code>regex(val: any, pattern: string, flags: string = &quot;i&quot;)</code></td>
+<td>Handles a value as string and checks for a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">regular expression</a>.</td>
+<td><code>regex(&quot;Foo Bar Bazz&quot;, &quot;(bar)&quot;)</code></td>
+</tr>
+<tr>
+<td><code>rtrim(val: any)</code></td>
+<td>Handles a value as string and removes ending whitespace characters.</td>
+<td><code>rtrim(&quot; foo &quot;) == &quot; foo&quot;</code></td>
+</tr>
+<tr>
+<td><code>second(useLocalTimeOrTimezone: boolean | string)</code></td>
+<td>Returns the current second.</td>
+<td><code>second() &gt;= 0 and second() &lt;= 59</code></td>
+</tr>
+<tr>
+<td><code>some(value: any, ...args: any[])</code></td>
+<td>Handles a value as string and checks if a least one argument is included.</td>
+<td><code>some(&quot;bar FoO BAZZ&quot;, &quot;FoO&quot;, &quot;BAR&quot;, &quot;baz&quot;)</code></td>
+</tr>
+<tr>
+<td><code>startOf(value: any, unit: string, useLocalTimeOrTimezone: boolean | string)</code></td>
+<td>Returns a value, which represents the start of a time area.</td>
+<td><code>startOf(now(), &quot;day&quot;) &lt;= now()</code></td>
+</tr>
+<tr>
+<td><code>str(value: any)</code></td>
+<td>Converts a value to a string, which is not <a href="https://developer.mozilla.org/en-US/docs/Glossary/null">null</a> and not <a href="https://developer.mozilla.org/en-US/docs/Glossary/undefined">undefined</a>.</td>
+<td><code>str(0) == &quot;0&quot;</code></td>
+</tr>
+<tr>
+<td><code>trim(val: any)</code></td>
+<td>Handles a value as string and removes leading and ending whitespace characters.</td>
+<td><code>trim(&quot; foo &quot;) == &quot;foo&quot;</code></td>
+</tr>
+<tr>
+<td><code>typeof(value: any)</code></td>
+<td>Returns the type of a value.</td>
+<td><code>log(typeOf(arg0)) and typeOf(args) == &quot;array&quot; and typeOf(null) == &quot;null&quot; and typeOf(&quot;foo&quot;) == &quot;string&quot;</code></td>
+</tr>
+<tr>
+<td><code>upper(val: any)</code></td>
+<td>Handles a value as string and converts its characters to uppercase.</td>
+<td><code>upper(&quot;fOo&quot;) == &quot;FOO&quot;</code></td>
+</tr>
+<tr>
+<td><code>year(useLocalTimeOrTimezone: boolean | string)</code></td>
+<td>Returns the current year.</td>
+<td><code>year() == 1979 and month() == 9 and day() == 5</code></td>
+</tr>
+</tbody></table>
+<p>It is possible, to add or remove functions:</p>
+<pre><code class="language-typescript"><span class="hl-0">import</span><span class="hl-1"> </span><span class="hl-2">log</span><span class="hl-1"> </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;@egomobile/log&quot;</span><span class="hl-1">;</span><br/><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">withFilterExpression</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;@egomobile/log-filter&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-7">str</span><span class="hl-1"> = (</span><span class="hl-2">val</span><span class="hl-1">: </span><span class="hl-9">any</span><span class="hl-1">) </span><span class="hl-5">=&gt;</span><span class="hl-1"> </span><span class="hl-9">String</span><span class="hl-1">(</span><span class="hl-2">val</span><span class="hl-1">);</span><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-7">myRepeat</span><span class="hl-1"> = (</span><span class="hl-2">val</span><span class="hl-1">: </span><span class="hl-9">any</span><span class="hl-1">, </span><span class="hl-2">count</span><span class="hl-1">: </span><span class="hl-9">number</span><span class="hl-1">) </span><span class="hl-5">=&gt;</span><span class="hl-1"> </span><span class="hl-7">str</span><span class="hl-1">(</span><span class="hl-2">val</span><span class="hl-1">).</span><span class="hl-7">repeat</span><span class="hl-1">(</span><span class="hl-2">count</span><span class="hl-1">);</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">expression</span><span class="hl-1"> = </span><span class="hl-3">&#39;repeatStr(arg0, 5) == &quot;TM+MK TM+MK TM+MK TM+MK TM+MK &quot;&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-2">log</span><span class="hl-1">.</span><span class="hl-7">use</span><span class="hl-1">(</span><br/><span class="hl-1">  </span><span class="hl-7">withFilterExpression</span><span class="hl-1">(</span><span class="hl-2">expression</span><span class="hl-1">, {</span><br/><span class="hl-1">    </span><span class="hl-2">extraFunctions:</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-4">// new, custom function</span><br/><span class="hl-1">      </span><span class="hl-2">repeatStr</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">// overwrite existing function</span><br/><span class="hl-1">      </span><span class="hl-2">str</span><span class="hl-1">,</span><br/><br/><span class="hl-1">      </span><span class="hl-4">// remove these</span><br/><span class="hl-1">      </span><span class="hl-2">ltrim:</span><span class="hl-1"> </span><span class="hl-5">undefined</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-2">rtrim:</span><span class="hl-1"> </span><span class="hl-5">undefined</span><span class="hl-1">,</span><br/><span class="hl-1">    },</span><br/><span class="hl-1">  })</span><br/><span class="hl-1">);</span><br/><br/><span class="hl-4">// will log</span><br/><span class="hl-7">log</span><span class="hl-1">(</span><span class="hl-3">&quot;TM+MK &quot;</span><span class="hl-1">);</span><br/><span class="hl-4">// will not log</span><br/><span class="hl-7">log</span><span class="hl-1">(</span><span class="hl-3">&quot;foo&quot;</span><span class="hl-1">);</span>
+</code></pre>
+
+<a href="#credits" id="credits" style="color: inherit; text-decoration: none;">
+  <h2>Credits</h2>
+</a>
+<p>The module makes use of:</p>
+<ul>
+<li><a href="https://day.js.org/">Day.js</a></li>
+<li><a href="https://github.com/m93a/filtrex">Filtrex</a> by <a href="https://github.com/m93a">Michal Grňo</a></li>
+</ul>
+
+<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+  <h2>Documentation</h2>
+</a>
+<p>The API documentation can be found <a href="https://egomobile.github.io/log-filter/">here</a>.</p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-interface"><a href="interfaces/IGetExtraLogFilterConstantsContext.html" class="tsd-kind-icon">IGet<wbr/>Extra<wbr/>Log<wbr/>Filter<wbr/>Constants<wbr/>Context</a></li><li class="tsd-kind-interface"><a href="interfaces/IWithFilterExpressionOptions.html" class="tsd-kind-icon">IWith<wbr/>Filter<wbr/>Expression<wbr/>Options</a></li><li class="tsd-kind-type-alias"><a href="modules.html#GetExtraLogFilterConstantsFunc" class="tsd-kind-icon">Get<wbr/>Extra<wbr/>Log<wbr/>Filter<wbr/>Constants<wbr/>Func</a></li><li class="tsd-kind-type-alias"><a href="modules.html#LogFilterConstants" class="tsd-kind-icon">Log<wbr/>Filter<wbr/>Constants</a></li><li class="tsd-kind-type-alias"><a href="modules.html#LogFilterFunctions" class="tsd-kind-icon">Log<wbr/>Filter<wbr/>Functions</a></li><li class="tsd-kind-type-alias"><a href="modules.html#LogFilterFunctionsWithOverwrites" class="tsd-kind-icon">Log<wbr/>Filter<wbr/>Functions<wbr/>With<wbr/>Overwrites</a></li><li class="tsd-kind-variable"><a href="modules.html#commonFilterFunctions" class="tsd-kind-icon">common<wbr/>Filter<wbr/>Functions</a></li><li class="tsd-kind-function"><a href="modules.html#withFilterExpression" class="tsd-kind-icon">with<wbr/>Filter<wbr/>Expression</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
